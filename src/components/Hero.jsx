@@ -84,7 +84,7 @@ export default function Hero() {
             4+ years designing and scaling secure, high-throughput <strong>Java</strong> and{' '}
             <strong>Spring Boot</strong> services across fintech and government platforms.
             I build <strong>event-driven microservices</strong> on <strong>Apache Kafka</strong>{' '}
-            and <strong>Redis</strong> at <strong>1M+ daily transaction</strong> scale — with
+            and <strong>Redis</strong> at <strong>1M+ daily transaction</strong> scale, with
             REST API design, OAuth 2.0/RBAC security, and PostgreSQL/MongoDB persistence.
           </Reveal>
 

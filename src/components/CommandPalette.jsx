@@ -1,8 +1,10 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
-import { profile } from '../data/profile'
+import { useLocation, useNavigate } from 'react-router-dom'
+import { profile, publication } from '../data/profile'
 import { posts } from '../data/posts'
+import { aiNotes } from '../data/aiNotes'
 import { copyText, useEscape, useReducedMotion } from '../hooks'
-import { SECTIONS } from './Nav'
+import { PAGES, SECTIONS } from './Nav'
 import Icon from './Icon'
 
 export default function CommandPalette({ open, onClose, onToggleTheme, toast }) {
@@ -12,28 +14,50 @@ export default function CommandPalette({ open, onClose, onToggleTheme, toast }) 
   const listRef = useRef(null)
   const lastFocus = useRef(null)
   const reduced = useReducedMotion()
+  const navigate = useNavigate()
+  const { pathname } = useLocation()
 
   const commands = useMemo(() => {
-    const goTo = (id) => () =>
+    // Home sections are only scrollable while the home page is mounted; from any
+    // other route the palette has to navigate there and let ScrollManager land it.
+    const goTo = (id) => () => {
+      if (pathname !== '/') { navigate(`/#${id}`); return }
       document.getElementById(id)?.scrollIntoView({
         behavior: reduced ? 'auto' : 'smooth',
         block: 'start',
       })
+    }
 
     return [
       { label: 'Home', hint: 'section', icon: 'section', run: goTo('home') },
       ...SECTIONS.map((s) => ({
-        label: s.id === 'log' ? 'Problems & solutions' : s.label,
+        label: s.label,
         hint: 'section',
         icon: 'section',
         run: goTo(s.id),
       })),
-      // Every log entry is directly addressable from the palette.
+      ...PAGES.map((p) => ({
+        label: `${p.label} engineering`,
+        hint: 'page',
+        icon: 'spark',
+        run: () => navigate(p.path),
+      })),
+      // Every challenge write-up is directly addressable from the palette.
       ...posts.map((p) => ({
         label: p.title,
-        hint: 'log entry',
+        hint: 'challenge',
         icon: 'bug',
-        run: () => { window.location.hash = `log/${p.slug}` },
+        run: () => {
+          if (pathname !== '/') navigate('/')
+          window.location.hash = `challenges/${p.slug}`
+        },
+      })),
+      // So is every AI learning note, which lives on the /ai page.
+      ...aiNotes.map((n) => ({
+        label: n.title,
+        hint: 'AI note',
+        icon: 'spark',
+        run: () => navigate(`/ai#note/${n.slug}`),
       })),
       {
         label: 'Send me an email', hint: 'mailto', icon: 'mail',
@@ -61,11 +85,15 @@ export default function CommandPalette({ open, onClose, onToggleTheme, toast }) 
         run: () => window.open(profile.resume, '_blank', 'noopener'),
       },
       {
+        label: `Read my paper: ${publication.title}`, hint: 'publication', icon: 'doc',
+        run: () => window.open(publication.href, '_blank', 'noopener'),
+      },
+      {
         label: 'Toggle dark / light theme', hint: 'setting', icon: 'moon',
         run: onToggleTheme,
       },
     ]
-  }, [reduced, onToggleTheme, toast])
+  }, [reduced, onToggleTheme, toast, navigate, pathname])
 
   const matches = useMemo(() => {
     const q = query.trim().toLowerCase()
@@ -130,7 +158,7 @@ export default function CommandPalette({ open, onClose, onToggleTheme, toast }) 
             type="text"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            placeholder="Jump to a section, open a write-up, copy my email…"
+            placeholder="Jump to a section, open a write-up, copy my email"
             autoComplete="off"
             spellCheck="false"
             aria-label="Search commands"

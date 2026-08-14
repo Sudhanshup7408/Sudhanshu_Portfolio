@@ -14,3 +14,8 @@ Thumbs.db
 .env
 .env.*
 !.env.example
+
+# Claude Code: per-machine settings and the temp files it writes beside them.
+# .claude/settings.json (shared project config) stays tracked if you add one.
+.claude/settings.local.json
+.claude/*.tmp.*

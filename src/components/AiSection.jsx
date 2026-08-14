@@ -31,7 +31,7 @@ function RagDiagram() {
   return (
     <Reveal as="figure" className={cls}>
       <figcaption className="diagram-cap">
-        <h3>Retrieval-augmented generation — request path</h3>
+        <h3>Retrieval-augmented generation: the request path</h3>
         <p>How a citizen question becomes a grounded, streamed answer.</p>
       </figcaption>
 
@@ -48,7 +48,7 @@ function RagDiagram() {
               </marker>
             </defs>
 
-            <text className="t-lane" x="14" y="24">01 · INDEX — BATCH</text>
+            <text className="t-lane" x="14" y="24">01 · INDEX · BATCH</text>
 
             <rect className="dg-box" x="14" y="42" width="170" height="62" rx="12" />
             <text className="t-title" x="99" y="72" textAnchor="middle">Source documents</text>
@@ -68,7 +68,7 @@ function RagDiagram() {
             <path className="dg-line" d="M460 236 V 296" markerEnd="url(#dgArrow)" />
             <text className="t-edge" x="472" y="272">top-k chunks</text>
 
-            <text className="t-lane" x="14" y="286">02 · RETRIEVE + GENERATE — PER REQUEST</text>
+            <text className="t-lane" x="14" y="286">02 · RETRIEVE + GENERATE · PER REQUEST</text>
 
             <rect className="dg-box" x="14" y="304" width="157" height="62" rx="12" />
             <text className="t-title" x="92" y="334" textAnchor="middle">User question</text>
@@ -148,11 +148,11 @@ export default function AiSection() {
   return (
     <section id="ai" className="section">
       <div className="container">
-        <SectionHead num="03" title="AI engineering" />
+        <SectionHead num="01" title="AI engineering" />
 
         <Reveal className="ai-intro">
           <p className="lead">
-            I ship LLM features the same way I ship payment rails — grounded, observable, and
+            I ship LLM features the same way I ship payment rails: grounded, observable, and
             boring to operate. The conversational stack at PeLocal runs on{' '}
             <strong>Spring AI</strong> with retrieval over <strong>pgvector</strong>, so answers
             come from the department's own documents rather than the model's memory.

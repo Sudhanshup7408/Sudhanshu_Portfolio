@@ -33,7 +33,7 @@ export const focusAreas = [
   },
   {
     title: 'Throughput & reliability',
-    body: 'Circuit breakers, Redis caching, multithreading tuning — 35% throughput lift, 30% lower MTTR.',
+    body: 'Circuit breakers, Redis caching, multithreading tuning, for a 35% throughput lift and 30% lower MTTR.',
   },
   {
     title: 'Security by default',
@@ -58,6 +58,20 @@ export const award = {
 }
 
 export const certifications = [
-  'Java Basic to Advance — IIT Kanpur',
-  'Introduction to Java — Microsoft MTA',
+  'Java Basic to Advance · IIT Kanpur',
+  'Introduction to Java · Microsoft MTA',
 ]
+
+/* Verified against the IEEE Xplore record for document 9673385. The proceedings
+   name is not exposed on the public page, so the venue is given as the location
+   and date, both of which are. Do not invent a conference acronym here. */
+export const publication = {
+  title: 'Effectiveness of Machine Learning Algorithms in Forecasting AQI',
+  authors: 'D. Pramanik, E. Jain, S. Pal',
+  venue: 'IEEE conference · Tashkent, Uzbekistan',
+  date: 'November 2021',
+  href: 'https://ieeexplore.ieee.org/document/9673385',
+  note: `Compared regression and tree-based models for air quality index
+         forecasting. Decision Tree predicted best on small datasets, Random
+         Forest on larger ones.`,
+}

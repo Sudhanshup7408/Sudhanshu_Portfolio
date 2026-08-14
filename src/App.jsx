@@ -1,16 +1,16 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
+import { Route, Routes, useLocation } from 'react-router-dom'
 import { profile } from './data/profile'
 import { copyText, useReducedMotion, useScrollState, useTheme } from './hooks'
 
 import Nav from './components/Nav'
 import CommandPalette from './components/CommandPalette'
-import Hero, { Stats } from './components/Hero'
-import AiSection from './components/AiSection'
-import BotsSection from './components/BotsSection'
-import ProblemLog from './components/ProblemLog'
-import Projects from './components/Projects'
-import { About, Contact, Education, Experience, Footer, Skills } from './components/Sections'
+import { Footer } from './components/Sections'
 import Icon from './components/Icon'
+
+import HomePage from './pages/HomePage'
+import AiPage from './pages/AiPage'
+import NotFoundPage from './pages/NotFoundPage'
 
 function Background() {
   return (
@@ -22,6 +22,37 @@ function Background() {
       <div className="bg-noise" />
     </div>
   )
+}
+
+/* Routing moved the sections onto two pages, so scroll position has to be managed
+   by hand. A hash means "land on that section" (including when arriving from the
+   other page); no hash means "start at the top of the new page". */
+function ScrollManager() {
+  const { pathname, hash } = useLocation()
+  const reduced = useReducedMotion()
+
+  useEffect(() => {
+    if (!hash) {
+      window.scrollTo({ top: 0, behavior: 'auto' })
+      return
+    }
+    // The target section may still be mounting on a fresh page load.
+    const id = decodeURIComponent(hash.slice(1))
+    let frames = 0
+    let raf
+    const tryScroll = () => {
+      const el = document.getElementById(id)
+      if (el) {
+        el.scrollIntoView({ behavior: reduced ? 'auto' : 'smooth', block: 'start' })
+        return
+      }
+      if (frames++ < 30) raf = requestAnimationFrame(tryScroll)
+    }
+    raf = requestAnimationFrame(tryScroll)
+    return () => cancelAnimationFrame(raf)
+  }, [pathname, hash, reduced])
+
+  return null
 }
 
 export default function App() {
@@ -59,6 +90,7 @@ export default function App() {
   return (
     <>
       <Background />
+      <ScrollManager />
 
       <a className="skip-link" href="#main">Skip to content</a>
 
@@ -74,17 +106,11 @@ export default function App() {
       />
 
       <main id="main">
-        <Hero />
-        <Stats />
-        <About />
-        <Skills />
-        <AiSection />
-        <BotsSection />
-        <ProblemLog />
-        <Experience />
-        <Projects />
-        <Education />
-        <Contact onCopyEmail={copyEmail} />
+        <Routes>
+          <Route path="/" element={<HomePage onCopyEmail={copyEmail} />} />
+          <Route path="/ai" element={<AiPage onCopyEmail={copyEmail} />} />
+          <Route path="*" element={<NotFoundPage />} />
+        </Routes>
       </main>
 
       <Footer />

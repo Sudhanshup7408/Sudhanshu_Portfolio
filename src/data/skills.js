@@ -62,6 +62,15 @@ export const skills = [
     hot: ['Spring AI', 'RAG'],
   },
   {
+    // Built the Newgen document engine without any of these, then knows them
+    // well enough to have replaced one. Both facts are worth listing.
+    icon: 'doc',
+    title: 'Documents & Media',
+    tags: ['PDF spec', 'iText', 'PDFBox', 'FFmpeg', 'Annotations', 'PDF encryption',
+           'Magic-number detection', 'Image/Video transcode', 'DOCX to PDF'],
+    hot: ['PDF spec'],
+  },
+  {
     icon: 'check',
     title: 'Testing',
     tags: ['JUnit 5', 'Mockito', 'TDD', 'JaCoCo', 'JMeter', 'Integration Testing',

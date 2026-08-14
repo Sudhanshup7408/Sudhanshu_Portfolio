@@ -1,4 +1,4 @@
-import { award, certifications, education, focusAreas, profile } from '../data/profile'
+import { award, certifications, education, focusAreas, profile, publication } from '../data/profile'
 import { skills } from '../data/skills'
 import { experience } from '../data/experience'
 import Icon from './Icon'
@@ -14,14 +14,14 @@ export function About() {
         <div className="about-grid">
           <Reveal className="about-copy">
             <p className="lead">
-              I'm a backend engineer who likes the unglamorous half of the stack — the queues,
+              I'm a backend engineer who likes the unglamorous half of the stack: the queues,
               the retries, the idempotency keys, the dashboard that tells you at 2 a.m. exactly
               which consumer fell behind.
             </p>
             <p>
               Over the last four years I've shipped production systems at <strong>NPCI</strong>,{' '}
               <strong>Newgen</strong>, <strong>Paytm</strong>, and now{' '}
-              <strong>PeLocal Fintech</strong> — payment rails moving a million transactions a
+              <strong>PeLocal Fintech</strong>: payment rails moving a million transactions a
               day, document pipelines that replaced $15K/year of licensed software, and
               multi-tenant government portals serving three departments off one Spring Boot
               backend.
@@ -127,7 +127,7 @@ export function Education() {
   return (
     <section id="education" className="section section-alt">
       <div className="container">
-        <SectionHead num="08" title="Education & recognition" />
+        <SectionHead num="08" title="Education, recognition & research" />
 
         <div className="edu-grid">
           <Reveal className="card edu-card">
@@ -148,6 +148,22 @@ export function Education() {
             <span className="edu-ico"><Icon name="list" /></span>
             <h3>Certifications</h3>
             {certifications.map((c) => <p className="edu-org" key={c}>{c}</p>)}
+          </Reveal>
+
+          <Reveal as="article" className="card edu-card pub-card" delay={3}>
+            <span className="edu-ico"><Icon name="doc" /></span>
+            <h3>{publication.title}</h3>
+            <p className="edu-org">{publication.authors}</p>
+            <p className="edu-date mono">{publication.venue} · {publication.date}</p>
+            <p className="pub-note">{publication.note.replace(/\s+/g, ' ').trim()}</p>
+            <a
+              className="pub-link"
+              href={publication.href}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Read on IEEE Xplore <Icon name="external" />
+            </a>
           </Reveal>
         </div>
       </div>
@@ -170,17 +186,43 @@ export function Contact({ onCopyEmail }) {
             event-driven architecture, and production ownership? I'd like to hear about it.
           </p>
 
+          {/* Three identical boxes on one baseline. The previous mix of two
+              wide btn-lg pills and one square icon button could not line up. */}
           <div className="contact-actions">
-            <a className="btn btn-primary btn-lg" href={`mailto:${profile.email}`}>
-              <Icon name="mail" /> {profile.email}
+            <a
+              className="icon-action lg primary"
+              href={`mailto:${profile.email}`}
+              aria-label={`Email ${profile.email}`}
+              title="Send an email"
+            >
+              <Icon name="mail" />
             </a>
-            <a className="btn btn-ghost btn-lg" href={profile.phoneHref}>
-              <Icon name="phone" /> {profile.phone}
+            <a
+              className="icon-action lg"
+              href={profile.phoneHref}
+              aria-label={`Call ${profile.phone}`}
+              title="Call"
+            >
+              <Icon name="phone" />
             </a>
-            <button className="btn btn-ghost btn-lg" type="button" onClick={onCopyEmail}>
-              <Icon name="copy" /> Copy email
+            <button
+              className="icon-action lg"
+              type="button"
+              onClick={onCopyEmail}
+              aria-label="Copy email address to clipboard"
+              title="Copy email address"
+            >
+              <Icon name="copy" />
             </button>
           </div>
+
+          {/* The icons say "how"; this says "what". Selectable, so the address
+              is still readable and copyable without clicking anything. */}
+          <p className="contact-detail mono">
+            <span>{profile.email}</span>
+            <span className="sep" aria-hidden="true">·</span>
+            <span>{profile.phone}</span>
+          </p>
 
           <div className="contact-links">
             <a href={profile.linkedin} target="_blank" rel="noopener noreferrer">LinkedIn</a>

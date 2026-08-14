@@ -1,3 +1,9 @@
+/* The "Challenges I faced" section. Entry data still lives in data/posts.js.
+
+   The CSS class names are all `log-*` because this started life as a problem log;
+   they are internal names and renaming them across styles.css would be churn for
+   no behaviour change. The user-facing name, the section id, and the deep-link
+   prefix are all "challenges". */
 import { useEffect, useMemo, useState } from 'react'
 import { posts } from '../data/posts'
 import Icon from './Icon'
@@ -10,6 +16,8 @@ const KIND_ICON = {
   Performance: 'pulse',
 }
 
+const HASH_PREFIX = 'challenges'
+
 const fmtDate = (iso) =>
   new Date(`${iso}T00:00:00`).toLocaleDateString('en-GB', {
     day: 'numeric', month: 'short', year: 'numeric',
@@ -17,13 +25,13 @@ const fmtDate = (iso) =>
 
 function Entry({ post, open, onToggle }) {
   return (
-    <article className={`card log-entry${open ? ' open' : ''}`} id={`log/${post.slug}`}>
+    <article className={`card log-entry${open ? ' open' : ''}`} id={`${HASH_PREFIX}/${post.slug}`}>
       <h3 className="log-head-wrap">
         <button
           type="button"
           className="log-head"
           aria-expanded={open}
-          aria-controls={`log-body-${post.slug}`}
+          aria-controls={`challenge-body-${post.slug}`}
           onClick={onToggle}
         >
           <span className={`log-kind ${post.tone}`}>
@@ -45,7 +53,7 @@ function Entry({ post, open, onToggle }) {
 
       <div
         className="log-body"
-        id={`log-body-${post.slug}`}
+        id={`challenge-body-${post.slug}`}
         hidden={!open}
       >
         <div className="log-body-inner">
@@ -103,7 +111,7 @@ function Block({ label, body }) {
   )
 }
 
-export default function ProblemLog() {
+export default function Challenges() {
   const [query, setQuery] = useState('')
   const [tag, setTag] = useState('All')
   const [openSlug, setOpenSlug] = useState(null)
@@ -129,10 +137,10 @@ export default function ProblemLog() {
     })
   }, [sorted, query, tag])
 
-  // #log/<slug> opens that entry and scrolls to it.
+  // #challenges/<slug> opens that entry and scrolls to it.
   useEffect(() => {
     const openFromHash = () => {
-      const m = window.location.hash.match(/^#log\/(.+)$/)
+      const m = window.location.hash.match(/^#challenges\/(.+)$/)
       if (!m) return
       const slug = decodeURIComponent(m[1])
       if (!sorted.some((p) => p.slug === slug)) return
@@ -142,7 +150,7 @@ export default function ProblemLog() {
       requestAnimationFrame(() => {
         // Instant, not smooth: someone arriving on a deep link expects to land
         // there, not to watch the whole page scroll past first.
-        document.getElementById(`log/${slug}`)
+        document.getElementById(`${HASH_PREFIX}/${slug}`)
           ?.scrollIntoView({ block: 'center', behavior: 'instant' })
       })
     }
@@ -157,21 +165,22 @@ export default function ProblemLog() {
       // Keep the URL shareable without pushing a history entry per click.
       history.replaceState(
         null, '',
-        next ? `#log/${next}` : location.pathname + location.search
+        next ? `#${HASH_PREFIX}/${next}` : location.pathname + location.search
       )
       return next
     })
   }
 
   return (
-    <section id="log" className="section">
+    <section id="challenges" className="section">
       <div className="container">
-        <SectionHead num="05" title="Problems & solutions" />
+        <SectionHead num="05" title="Challenges I faced" />
 
         <Reveal className="log-intro">
           <p className="lead">
-            Things that broke, and what actually fixed them. Written up while the details were
-            still fresh — symptom, root cause, the fix, and the part worth remembering.
+            Things that broke in production and what actually fixed them. Written up while the
+            details were still fresh: the symptom, the root cause, the fix, and the part worth
+            remembering next time.
           </p>
         </Reveal>
 
@@ -182,8 +191,8 @@ export default function ProblemLog() {
               type="search"
               value={query}
               onChange={(e) => setQuery(e.target.value)}
-              placeholder="Search the log — Kafka, timeout, Maven…"
-              aria-label="Search problem log"
+              placeholder="Search the challenges: Kafka, timeout, Maven…"
+              aria-label="Search challenges"
             />
           </div>
 
@@ -224,7 +233,7 @@ export default function ProblemLog() {
 
         {!visible.length && (
           <p className="filter-empty">
-            Nothing in the log matches that yet.
+            No challenge matches that yet.
           </p>
         )}
       </div>

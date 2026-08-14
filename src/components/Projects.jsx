@@ -1,5 +1,6 @@
 import { useMemo, useState } from 'react'
 import { projects } from '../data/projects'
+import Carousel from './Carousel'
 import Icon from './Icon'
 import Reveal, { SectionHead, Tags } from './Reveal'
 
@@ -19,6 +20,10 @@ export default function Projects() {
     <section id="projects" className="section">
       <div className="container">
         <SectionHead num="07" title="Key projects" />
+
+        {/* Featured first: the four pieces of the platform, one at a time.
+            The filterable list of everything else follows underneath. */}
+        <Carousel />
 
         <Reveal className="filter-bar" role="group" aria-label="Filter projects by area">
           <button

@@ -67,8 +67,8 @@ export function useReveal() {
 /** Counts up to `target` when scrolled into view. Returns [ref, displayValue].
  *
  *  A timer snaps the value to `target` once the animation window has elapsed.
- *  requestAnimationFrame can be starved — a throttled tab, a low-power mode, a
- *  headless renderer — and without the fallback the number would sit on 0
+ *  requestAnimationFrame can be starved (a throttled tab, a low-power mode, a
+ *  headless renderer), and without the fallback the number would sit on 0
  *  forever, which reads as "0+ years of experience". */
 export function useCountUp(target, { duration = 1500 } = {}) {
   const ref = useRef(null)

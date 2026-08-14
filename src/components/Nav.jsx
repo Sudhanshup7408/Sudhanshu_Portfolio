@@ -1,24 +1,41 @@
 import { useEffect, useLayoutEffect, useRef, useState } from 'react'
+import { Link, useLocation } from 'react-router-dom'
 import { profile } from '../data/profile'
 import { useEscape, useScrollSpy } from '../hooks'
 import Icon from './Icon'
 
+/* Sections that live on the home page, in document order. */
 export const SECTIONS = [
   { id: 'about',      label: 'About' },
   { id: 'skills',     label: 'Skills' },
-  { id: 'ai',         label: 'AI' },
+  { id: 'playground', label: 'Playground' },
   { id: 'bots',       label: 'Bots' },
-  { id: 'log',        label: 'Log' },
+  { id: 'challenges', label: 'Challenges' },
   { id: 'experience', label: 'Experience' },
   { id: 'projects',   label: 'Projects' },
   { id: 'contact',    label: 'Contact' },
 ]
 
+/* Sections that live on their own route. Kept separate because these are page
+   navigations, not in-page scrolls, and the scroll spy must not track them. */
+export const PAGES = [
+  { path: '/ai', label: 'AI' },
+]
+
 const IDS = SECTIONS.map((s) => s.id)
+/* Module-level so the "nothing to spy on" case passes a stable reference.
+   An inline [] would be a fresh array every render, re-running the observer
+   effect on every render of every non-home page. */
+const NO_IDS = []
 
 export default function Nav({ scrolled, theme, onToggleTheme, onOpenPalette }) {
   const [menuOpen, setMenuOpen] = useState(false)
-  const active = useScrollSpy(IDS)
+  const { pathname } = useLocation()
+  const onHome = pathname === '/'
+
+  // Spying on hash sections only makes sense while they are actually mounted.
+  const spied = useScrollSpy(onHome ? IDS : NO_IDS)
+  const active = onHome ? spied : null
 
   const listRef = useRef(null)
   const [indicator, setIndicator] = useState(null)
@@ -35,7 +52,7 @@ export default function Nav({ scrolled, theme, onToggleTheme, onOpenPalette }) {
     move()
     window.addEventListener('resize', move)
     return () => window.removeEventListener('resize', move)
-  }, [active])
+  }, [active, pathname])
 
   useEscape(menuOpen, () => setMenuOpen(false))
 
@@ -44,29 +61,49 @@ export default function Nav({ scrolled, theme, onToggleTheme, onOpenPalette }) {
     return () => { document.body.style.overflow = '' }
   }, [menuOpen])
 
+  const close = () => setMenuOpen(false)
+
   return (
     <header className={`nav${scrolled ? ' scrolled' : ''}`}>
-      <a href="#home" className="brand">
+      <Link to="/" className="brand" onClick={close}>
         <span className="brand-mark">SP</span>
         <span className="brand-text">Sudhanshu<span className="dot">.</span>Pal</span>
-      </a>
+      </Link>
 
       <nav
         className={`nav-links${menuOpen ? ' open' : ''}`}
         ref={listRef}
         aria-label="Section navigation"
       >
-        {SECTIONS.map((s) => (
-          <a
-            key={s.id}
-            href={`#${s.id}`}
-            className={`nav-link${active === s.id ? ' active' : ''}`}
-            aria-current={active === s.id ? 'true' : undefined}
-            onClick={() => setMenuOpen(false)}
+        {SECTIONS.map((s) => {
+          const cls = `nav-link${active === s.id ? ' active' : ''}`
+          const current = active === s.id ? 'true' : undefined
+
+          // On the home page these are in-page jumps; from any other route they
+          // have to go home first, which is a real navigation.
+          return onHome ? (
+            <a key={s.id} href={`#${s.id}`} className={cls} aria-current={current} onClick={close}>
+              {s.label}
+            </a>
+          ) : (
+            <Link key={s.id} to={`/#${s.id}`} className={cls} onClick={close}>
+              {s.label}
+            </Link>
+          )
+        })}
+
+        {PAGES.map((p) => (
+          <Link
+            key={p.path}
+            to={p.path}
+            className={`nav-link${pathname === p.path ? ' active' : ''}`}
+            aria-current={pathname === p.path ? 'page' : undefined}
+            onClick={close}
           >
-            {s.label}
-          </a>
+            {p.label}
+          </Link>
         ))}
+
         <span
           className={`nav-indicator${indicator ? ' on' : ''}`}
           aria-hidden="true"

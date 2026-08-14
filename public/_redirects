@@ -1,0 +1,5 @@
+# Netlify / Cloudflare Pages SPA fallback.
+# BrowserRouter serves real paths (/ai), which the host knows nothing about.
+# Without this, a hard refresh or a shared link to /ai returns the host's 404
+# instead of index.html, and React Router never gets a chance to route it.
+/*  /index.html  200
