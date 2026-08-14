@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Sudhanshu Pal · Senior Backend Engineer</title>
+
+<!--
+  ATS-FRIENDLY RESUME SOURCE.
+
+  Build:  npm run resume     (headless Chrome print-to-PDF, same pipeline that
+                              produced the original file)
+
+  This folder is NOT copied into dist/. Only public/ is served, so editing here
+  never changes the deployed site until the generated PDF is copied to
+  public/resume.pdf, which the build script does for you.
+
+  Rules this file follows so applicant tracking systems can parse it:
+    - One column. Nothing reads across a gutter, so extraction order matches
+      reading order.
+    - No images, icons, SVG or background graphics. Every glyph is real text.
+    - Standard section headings ("PROFESSIONAL EXPERIENCE", not "Where I've Been").
+    - Flexbox rows put the left item first in the DOM, so company/date pairs
+      extract as "Company  Dates" rather than interleaving.
+    - No CSS position:absolute, no headers/footers, no multi-column, no tables
+      used for layout.
+    - Bullets are real <li>. The marker is a plain character, not an image.
+    - Contact details are plain selectable text, not a graphic or a link-only.
+-->
+
+<style>
+  @page { size: A4; margin: 12mm 13mm; }
+
+  * { box-sizing: border-box; }
+
+  html, body {
+    margin: 0;
+    padding: 0;
+    font-family: "Liberation Sans", Arial, Helvetica, sans-serif;
+    font-size: 9.6pt;
+    line-height: 1.34;
+    color: #14181f;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  a { color: #14181f; text-decoration: none; }
+
+  /* ---------- header ---------- */
+  .name {
+    font-size: 20pt;
+    font-weight: 700;
+    letter-spacing: .06em;
+    margin: 0;
+  }
+  .title {
+    font-size: 10.6pt;
+    font-weight: 700;
+    letter-spacing: .13em;
+    color: #2c5f8a;
+    margin: 3px 0 5px;
+  }
+  .stack {
+    font-size: 9pt;
+    color: #444c58;
+    margin: 0 0 6px;
+  }
+  .contact {
+    font-size: 8.9pt;
+    color: #23303f;
+    margin: 0;
+  }
+  .contact span { white-space: nowrap; }
+
+  .rule {
+    border: 0;
+    border-top: 1.4px solid #2c5f8a;
+    margin: 8px 0 0;
+  }
+
+  /* ---------- sections ---------- */
+  /* No letter-spacing here. Chrome emits a letter-spaced run as separate glyph
+     positions, and pdftotext then extracts "P R O F E S S I O N A L S U M M A RY",
+     which no ATS will match against "professional summary". Word-spacing is the
+     one thing worth losing to keep the headings machine-readable. */
+  h2 {
+    font-size: 9.9pt;
+    font-weight: 700;
+    color: #2c5f8a;
+    margin: 11px 0 5px;
+    padding-bottom: 2px;
+    border-bottom: .8px solid #c3cedb;
+    /* Never leave a heading stranded at the foot of a page. */
+    break-after: avoid;
+    page-break-after: avoid;
+  }
+
+  p { margin: 0 0 4px; }
+
+  /* ---------- skills ----------
+     One line per category, label inline rather than in a flex column. A
+     two-column flex layout extracts as a run of labels followed by a run of
+     values, so "Languages / Frameworks / Java... / Spring Boot..." loses the
+     pairing. Inline keeps each category on a single extractable line. */
+  .skill {
+    margin-bottom: 2.5px;
+    padding-left: 12px;
+    text-indent: -12px;
+  }
+  .skill-k { font-weight: 700; color: #23303f; }
+
+  /* ---------- experience ---------- */
+  .job { margin-bottom: 8px; break-inside: avoid-page; }
+  .job-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 12px;
+  }
+  .job-co   { font-size: 10.4pt; font-weight: 700; }
+  .job-role { font-size: 9.5pt; font-style: italic; color: #34414f; }
+  .job-when { font-size: 8.9pt; font-weight: 700; white-space: nowrap; }
+  .job-where{ font-size: 8.9pt; color: #55606d; white-space: nowrap; }
+
+  ul { margin: 3px 0 0; padding-left: 14px; }
+  li { margin-bottom: 1.6px; }
+  li::marker { color: #2c5f8a; }
+
+  /* ---------- projects / publication ---------- */
+  .item { margin-bottom: 4px; }
+  .item-h { font-weight: 700; }
+  .item-h .org { font-weight: 400; color: #55606d; }
+
+  .edu-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 12px;
+  }
+  .muted { color: #55606d; }
+</style>
+</head>
+<body>
+
+  <h1 class="name">SUDHANSHU PAL</h1>
+  <div class="title">SENIOR BACKEND ENGINEER</div>
+  <p class="stack">Java · Spring Boot · Microservices · Apache Kafka · Kubernetes · AWS · Spring AI</p>
+  <p class="contact">
+    <span>+91 70078 23554</span> ·
+    <span>sudhanshupal03616@gmail.com</span> ·
+    <span>Noida, India</span>
+  </p>
+  <p class="contact">
+    <span>sudhanshu-portfolio-nu.vercel.app</span> ·
+    <span>linkedin.com/in/sudhanshupal7408</span> ·
+    <span>github.com/Sudhanshup7408</span>
+  </p>
+  <hr class="rule">
+
+  <h2>PROFESSIONAL SUMMARY</h2>
+  <p>
+    Senior Backend Engineer with 4+ years designing and scaling secure, high-throughput Java and
+    Spring Boot services across fintech and government platforms. Builds event-driven microservices
+    on Apache Kafka and Redis at 1M+ daily transaction scale, with REST API design, OAuth 2.0/RBAC
+    security, and PostgreSQL/MongoDB persistence. Replaced a licensed commercial document library
+    with a PDF and media engine written from scratch against the specification, saving ~$15K per
+    year. Hands-on across Docker, Kubernetes, Jenkins CI/CD, and Prometheus/Grafana/ELK
+    observability, plus production Spring AI and RAG delivery. Published IEEE conference author.
+  </p>
+
+  <h2>TECHNICAL SKILLS</h2>
+  <p class="skill"><span class="skill-k">Languages:</span> Java (8/11/17), SQL, Bash/Shell, Core Java, Multithreading, Concurrency, OOP, SOLID</p>
+  <p class="skill"><span class="skill-k">Frameworks:</span> Spring Boot, Spring MVC, Spring Security, Spring Data JPA, Hibernate/JPA, REST APIs, gRPC</p>
+  <p class="skill"><span class="skill-k">Architecture:</span> Microservices, Event-Driven Architecture, Distributed Systems, API Gateway, CQRS, Saga</p>
+  <p class="skill"><span class="skill-k">Messaging:</span> Apache Kafka, RabbitMQ, WebSocket, Server-Sent Events (SSE), Webhooks, Async Processing</p>
+  <p class="skill"><span class="skill-k">Databases:</span> PostgreSQL, MySQL, MongoDB, Redis, Schema Design, Indexing, Query Optimization</p>
+  <p class="skill"><span class="skill-k">Documents &amp; Media:</span> PDF specification, iText, Apache PDFBox, FFmpeg, PDF encryption, Annotations, Magic-number file type detection, Image/Video transcoding, DOCX to PDF</p>
+  <p class="skill"><span class="skill-k">DevOps &amp; Cloud:</span> Docker, Kubernetes, Jenkins, CI/CD, AWS (EC2, S3, IAM), Nginx, Linux, Maven, Git</p>
+  <p class="skill"><span class="skill-k">Observability:</span> Prometheus, Grafana, ELK Stack (Elasticsearch, Logstash, Kibana), Alerting, RCA</p>
+  <p class="skill"><span class="skill-k">Security:</span> OAuth 2.0, JWT, RBAC, SSO, OWASP Top 10, SonarQube, Checkmarx, SAST, TLS/SSL</p>
+  <p class="skill"><span class="skill-k">AI / LLM:</span> Spring AI, LLM APIs, RAG, Vector Databases (pgvector), Embeddings, Semantic Search</p>
+  <p class="skill"><span class="skill-k">Testing:</span> JUnit 5, Mockito, TDD, JaCoCo, JMeter, Integration Testing, Code Coverage</p>
+  <p class="skill"><span class="skill-k">Practices:</span> Agile/Scrum, System Design, Code Review, Production Support, Incident Management, Client Handling</p>
+
+  <h2>PROFESSIONAL EXPERIENCE</h2>
+
+  <div class="job">
+    <div class="job-row">
+      <div class="job-co">PeLocal Fintech Private Limited</div>
+      <div class="job-when">Feb 2026 – Present</div>
+    </div>
+    <div class="job-row">
+      <div class="job-role">Senior Backend Developer</div>
+      <div class="job-where">Noida, India</div>
+    </div>
+    <ul>
+      <li>Architected Spring Boot microservices and REST APIs powering Tourism, Police, and Healthcare portals.</li>
+      <li>Built a multi-tenant WhatsApp bot on Meta Cloud API routing three departments through separate flows.</li>
+      <li>Hardened webhook ingestion with signature verification, message dedup, and Kafka-backed processing.</li>
+      <li>Delivered a RAG pipeline over pgvector embeddings and semantic search, cutting support queries ~40%.</li>
+      <li>Streamed token-by-token LLM output to clients over WebSocket and SSE for real-time conversations.</li>
+      <li>Designed polyglot persistence with PostgreSQL for transactions and MongoDB for reporting aggregates.</li>
+      <li>Implemented OAuth 2.0 and four-tier RBAC in Spring Security, securing REST APIs with JWT and SAST.</li>
+      <li>Built the Agent-Supervisor CRM backend with SLA-tracked ticketing at 500+ tickets/day and KPI reporting.</li>
+      <li>Containerized services with Docker and automated Jenkins CI/CD releases to Kubernetes.</li>
+      <li>Instrumented Prometheus metrics, Grafana dashboards, and centralized ELK logging across all services.</li>
+    </ul>
+  </div>
+
+  <div class="job">
+    <div class="job-row">
+      <div class="job-co">Paytm</div>
+      <div class="job-when">Sep 2025 – Feb 2026</div>
+    </div>
+    <div class="job-row">
+      <div class="job-role">Software Developer</div>
+      <div class="job-where">Noida, India</div>
+    </div>
+    <ul>
+      <li>Migrated three legacy partner flows to event-driven microservices on Apache Kafka and RabbitMQ.</li>
+      <li>Lifted transaction success rates 10-15% across the migrated partner integration flows.</li>
+      <li>Debugged critical Kafka pipeline and Redis cache failures across four incidents with zero data loss.</li>
+      <li>Cut MTTR 30% by triaging live production incidents through Kibana log analysis and monitoring.</li>
+      <li>Integrated four insurance provider APIs into production with zero customer-facing disruption.</li>
+    </ul>
+  </div>
+
+  <div class="job">
+    <div class="job-row">
+      <div class="job-co">Newgen Software Technologies (NSTL)</div>
+      <div class="job-when">Jun 2023 – Sep 2025</div>
+    </div>
+    <div class="job-row">
+      <div class="job-role">Senior Software Design Engineer</div>
+      <div class="job-where">Noida, India</div>
+    </div>
+    <ul>
+      <li>Rebuilt the document processing stack from scratch against the PDF specification with no third-party library, removing the licensed iText dependency and saving ~$15K per year in licence cost.</li>
+      <li>Implemented page-level PDF manipulation: create, insert, delete, remove, shuffle, split, and merge.</li>
+      <li>Built PDF security in-house, encrypting and decrypting documents with owner and user passwords and per-operation permission flags.</li>
+      <li>Developed the full annotation layer: line, circle, rectangle, free text, link annotations, and text and image watermarks.</li>
+      <li>Detected true file type from magic-number headers rather than file extensions, rejecting mislabelled uploads before parsing.</li>
+      <li>Engineered bidirectional media conversion, image sequences to video and video to extracted frames, plus DOCX to PDF conversion APIs.</li>
+      <li>Developed a Spring Boot video KYC service with OpenVidu and FFmpeg on AWS EC2 for compliance capture.</li>
+      <li>Owned production support end to end, triaging live tickets and working directly with clients from first report through root cause to release.</li>
+      <li>Improved service throughput 35% through multithreading optimization, JMeter-validated at 500 concurrent users.</li>
+      <li>Resolved 20+ production issues, reached 90%+ unit coverage with JUnit, Mockito, and JaCoCo, and cleared all SonarQube and Checkmarx findings before release.</li>
+    </ul>
+  </div>
+
+  <div class="job">
+    <div class="job-row">
+      <div class="job-co">National Payments Corporation of India (NPCI)</div>
+      <div class="job-when">Jun 2022 – Feb 2023</div>
+    </div>
+    <div class="job-row">
+      <div class="job-role">Graduate Engineer Trainee</div>
+      <div class="job-where">Hyderabad, India</div>
+    </div>
+    <ul>
+      <li>Designed a microservice architecture supporting 1M+ daily transactions with Kafka event processing.</li>
+      <li>Applied Redis caching and circuit-breaker patterns to sustain high availability under peak load.</li>
+      <li>Built Core Java and Hibernate/JPA services for NACH, processing 1M+ daily financial transactions.</li>
+      <li>Automated license notification workflows that cut manual effort 60%.</li>
+      <li>Delivered BBPS Biller Dashboard 2.0 REST APIs with Swagger/OpenAPI docs for on-time Day-1 go-live.</li>
+    </ul>
+  </div>
+
+  <h2>KEY PROJECTS</h2>
+  <div class="item"><span class="item-h">Document Processing Engine <span class="org">· Newgen.</span></span>
+    PDF and media engine written from scratch against the specification with no third-party library. Page operations, encryption, annotations, magic-number type detection, and image/video conversion. Replaced iText and removed ~$15K per year of licence cost.</div>
+  <div class="item"><span class="item-h">Citizen Services Platform <span class="org">· PeLocal.</span></span>
+    Three government departments on one multi-tenant Spring Boot backend with tenant-scoped routing and isolated data boundaries.</div>
+  <div class="item"><span class="item-h">Conversational AI Backend <span class="org">· PeLocal.</span></span>
+    Spring AI orchestration, pgvector retrieval, and WebSocket/SSE token streaming; cut inbound support queries ~40%.</div>
+  <div class="item"><span class="item-h">Agent &amp; Ticketing CRM <span class="org">· PeLocal.</span></span>
+    Four-role access model, live chat, and SLA automation at 500+ tickets/day with supervisor KPI reporting.</div>
+  <div class="item"><span class="item-h">Video KYC Service <span class="org">· Newgen.</span></span>
+    OpenVidu and FFmpeg media pipeline on AWS EC2 for compliance capture and regulatory retention.</div>
+  <div class="item"><span class="item-h">NACH &amp; BBPS Payment Rails <span class="org">· NPCI.</span></span>
+    Core Java and Hibernate services sustaining 1M+ daily transactions on national payment infrastructure.</div>
+
+  <h2>PUBLICATION</h2>
+  <div class="item">
+    <span class="item-h">Effectiveness of Machine Learning Algorithms in Forecasting AQI</span><br>
+    D. Pramanik, E. Jain, S. Pal · IEEE conference, Tashkent, Uzbekistan · November 2021<br>
+    <span class="muted">Compared regression and tree-based models for air quality index forecasting; Decision Tree performed best on small datasets and Random Forest on larger ones. ieeexplore.ieee.org/document/9673385</span>
+  </div>
+
+  <h2>EDUCATION</h2>
+  <div class="edu-row">
+    <div><span class="item-h">B.Tech, Computer Science &amp; Engineering</span></div>
+    <div class="job-when">Jun 2018 – May 2022</div>
+  </div>
+  <div class="edu-row">
+    <div class="muted">DIT University</div>
+    <div class="job-where">Dehradun, India</div>
+  </div>
+
+  <h2>CERTIFICATIONS &amp; AWARDS</h2>
+  <p><span class="item-h">Pinnacle Performance Award</span> · Newgen Software (NSTL), for outstanding delivery and zero-defect production releases.</p>
+  <p>Java Basic to Advance · IIT Kanpur</p>
+  <p>Introduction to Java · Microsoft MTA</p>
+
+</body>
+</html>
